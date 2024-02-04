@@ -81,13 +81,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
     });
   }
+  void _readTextFile2(File? path) async{
+    final Directory tempDir = await getTemporaryDirectory();
+    print(tempDir);
+
+    //final File file = File(path);
+
+    final String fileContent = await path!.readAsString();
+
+    print(fileContent);
+
+    setState(() {
+
+      filecontaint=fileContent.toString();
+
+    });
+  }
+  void _saveTextFile() async{
+    // this next 4 line to write a file in temp Directory
+    final Directory tempDir = await getTemporaryDirectory();
+    final File file = File('/storage/emulated/0/Download/'+filename.text+".text");
+    print(""+tempDir.toString());
+    await file.writeAsString(newnote.text);
+    setState(() {
+      newnote.text="";
+      filename.text="";
+
+
+    });
+  }
+
   void _incrementCounter() async{
 
-    /*// this next 4 line to write a file in temp Directory
-    final Directory tempDir = await getTemporaryDirectory();
-    final File file = File('${tempDir.path}/fileNo_'+_counter.toString());
-    print(""+tempDir.toString());
-    await file.writeAsString('this file writen as the try No.'+_counter.toString());*/
+
 
     /*////////////here we creat a file in side our own Dir in temp folder
     final Directory tempDir = await getTemporaryDirectory();
@@ -109,17 +135,14 @@ class _MyHomePageState extends State<MyHomePage> {
     //print(appDocuments);
     //print("mazin");
     setState(() {
-     // filecontaint=fileContent as TextEditingController;
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      filecontaint=fileContent.toString();
+
       _counter++;
     });
   }
   late String filecontaint="";
+  TextEditingController newnote=TextEditingController();
+  TextEditingController filename=TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,21 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-          if (file != null || result != null) ...[
-            if (kIsWeb) ...[
-              Image.memory(
-                result!.files.first.bytes!,
-                height: 177,
-                width: 360,
-                fit: BoxFit.fill,
-              ),
-            ] else ...[
-              Image.file(file!, height: 177, width: 360, fit: BoxFit.fill),
-            ],
-            const SizedBox(height: 8),
-          ],
-
+          Text(filecontaint),
           ElevatedButton(
             onPressed: () async {
               try {
@@ -165,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (result != null) {
                   if (!kIsWeb) {
                     file = File(result!.files.single.path!);
+                    _readTextFile2(file);
                   }
                   setState(() {});
                 } else {
@@ -173,15 +183,37 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               } catch (_) {}
             },
-            child: const Text('Pick File'),
+            child: const Text('Pick a Text file File'),
           ),
-          Text(filecontaint),
+
+          TextField(
+            controller: filename,
+              decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'file Name',
+              hintText: 'Enter the a file to name to save the note to ',
+            ),
+          ),TextField(
+            controller: newnote,
+            maxLines: 4,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Enter a note',
+              hintText: 'Enter your Note overe here',
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              _saveTextFile();
+            },
+            child: const Text('save a text'),
+          ),
 
 
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _readTextFile,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
