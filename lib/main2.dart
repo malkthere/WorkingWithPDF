@@ -64,6 +64,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+
+  void _readTextFile() async{
+    final Directory tempDir = await getTemporaryDirectory();
+    print(tempDir);
+
+    final File file = File('${tempDir.path}/file_picker/a text file 005.txt');
+
+    final String fileContent = await file.readAsString();
+
+    print(fileContent);
+
+    setState(() {
+
+      filecontaint=fileContent.toString();
+
+    });
+  }
   void _incrementCounter() async{
 
     /*// this next 4 line to write a file in temp Directory
@@ -87,13 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await file.writeAsString('this file writen as the try No.'+_counter.toString());*/
 
     //////////////// reading a file from temp
-    final Directory tempDir = await getTemporaryDirectory();
-    print(tempDir);
-    final File file = File('${tempDir.path}/file_picker/a text file 005.txt');
 
-    final String fileContent = await file.readAsString();
-
-    print(fileContent);
    // final appDocuments = await getApplicationDocumentsDirectory();
     //print(appDocuments);
     //print("mazin");
