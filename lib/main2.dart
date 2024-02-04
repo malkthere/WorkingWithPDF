@@ -86,24 +86,29 @@ class _MyHomePageState extends State<MyHomePage> {
     print(""+tempDir.toString());
     await file.writeAsString('this file writen as the try No.'+_counter.toString());*/
 
-   /* //////////////// reading a file from temp
+    //////////////// reading a file from temp
     final Directory tempDir = await getTemporaryDirectory();
-    final File file = File('${tempDir.path}/fileNo_0');
+    print(tempDir);
+    final File file = File('${tempDir.path}/file_picker/a text file 005.txt');
 
     final String fileContent = await file.readAsString();
-    print(fileContent);*/
+
+    print(fileContent);
    // final appDocuments = await getApplicationDocumentsDirectory();
     //print(appDocuments);
     //print("mazin");
     setState(() {
+     // filecontaint=fileContent as TextEditingController;
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      filecontaint=fileContent.toString();
       _counter++;
     });
   }
+  late String filecontaint="";
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             child: const Text('Pick File'),
           ),
+          Text(filecontaint),
+
 
         ]),
       ),
