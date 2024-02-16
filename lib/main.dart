@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:filemanagment/textfiles.dart';
+import 'package:filemanagment/PdfPreviewPage.dart';
+import 'package:filemanagment/pdfiles.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -45,123 +46,28 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   Textfiles fileobj = Textfiles();
 
-late String initialfilecontaint="";
-    late Future<String> filecontaint;
 
-    TextEditingController newnote=TextEditingController();
-    TextEditingController filename=TextEditingController();
-    TextEditingController dirName=TextEditingController();
+  String text = "Your text to display below image";
 
-
-    @override
-    Widget build(BuildContext context) {
-      File? file;
-      FilePickerResult? result;
-
-      return Scaffold(
-        appBar: AppBar(
-
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(x),
-            ElevatedButton(
-              onPressed: () async {
-                  // x=filecontaint as String;
-
-                try {
-                  result = await FilePicker.platform.pickFiles();
-                  if (result != null) {
-                  if (!kIsWeb) {
-                    file = File(result!.files.single.path!);
-                    filecontaint = (await fileobj.readTextFile2(file)) as Future<String>;
-                     //initialfilecontaint=filecontaint;
-                   // x='${filecontaint}'.toString();
-
-
-                    }
-
-                  } else {
-                    print("user cancled the picker");
-                    // User canceled the picker
-                  }
-
-                } catch (_) {}
-                super.setState(()  {
-
-                });
-                },
-              child: const Text('Pick a Text file File'),
-            ),
-
-            TextField(
-              controller: filename,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'file Name',
-                hintText: 'Enter the a file to name to save the note to ',
-              ),
-            ),
-            TextField(
-              controller: newnote,
-              maxLines: 4,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter a note',
-                hintText: 'Enter your Note overe here',
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-
-                fileobj.saveTextFile(filename.text, newnote.text);
-                setState(() {
-                  x=newnote.text;
-                  newnote.text="";
-                  filename.text="";
-
-
-                });
-              },
-              child: const Text('save a text'),
-            ),
-            TextField(
-              controller: dirName,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'file Name',
-                hintText: 'Enter the a file to name to save the note to ',
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                fileobj.creatDir(dirName.text);
-              },
-              child: const Text('create Dir'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                fileobj.getthepath();
-              },
-              child: const Text('get the path'),
-            ),
-
-
-          ]),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            setState(() {
-              filecontaint=fileobj.readTextFile();
-            });
-          },
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Sales Bill"),),
+      body: Column(
+        children: [
+          Image.asset("assets/phone.png"),
+          Text(text),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context){
+            return  PdfPreviewPage(text);
+          }));
+        },
+        child: const Icon(Icons.picture_as_pdf_sharp),
+      ),
+    );
+  }
   }
 

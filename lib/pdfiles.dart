@@ -1,12 +1,6 @@
 import 'dart:io';
-//import 'package:filemanagment/main.dart';
-
 import 'main.dart';
-import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'package:path_provider/path_provider.dart';
 
  class Textfiles {
@@ -18,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
     final File file = File('${tempDir.path}/file_picker/a text file 005.txt');
 
     final String fileContent = await file.readAsString();
+  //  final List<Future<String>> fileContent = await file.readAsLines();
 
     print(fileContent);
 
@@ -89,11 +84,5 @@ import 'package:path_provider/path_provider.dart';
     print(appDocuments);
 
   }
-
-  void incrementCounter() async{
-
-
-  }
-
 
 }
