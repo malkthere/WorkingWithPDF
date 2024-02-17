@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:filemanagment/PdfPreviewPage.dart';
 import 'package:filemanagment/pdfiles.dart';
+import 'package:filemanagment/sell_A_Product.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -57,13 +58,23 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Image.asset("assets/phone.png"),
           Text(text),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Sellproducts(),
+                ),
+              );
+            },
+            child: const Text('sell a product'),
+          ),
+
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context){
-            return  PdfPreviewPage(text);
-          }));
+
         },
         child: const Icon(Icons.picture_as_pdf_sharp),
       ),
